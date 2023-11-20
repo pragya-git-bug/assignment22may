@@ -1,0 +1,192 @@
+Assignment 22 May 1
+
+Answer1
+package randomQueAssignment;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+/*Q1. Implement a Map in java which takes the input and print the list in sorted
+ *  order based on key.*/
+public class Q1KeyBasedSorting {
+	public static void main(String[] args) {
+		// Create a TreeMap
+		TreeMap<String, Integer> map = new TreeMap<>();
+
+		// Take input from the user
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Enter the number of elements: ");
+		int n = scanner.nextInt();
+		scanner.nextLine(); // Consume newline character
+
+		for (int i = 0; i < n; i++) {
+			System.out.print("Enter key: ");
+			String key = scanner.nextLine();
+			System.out.print("Enter value: ");
+			int value = scanner.nextInt();
+			scanner.nextLine(); // Consume newline character
+
+			// Add key-value pair to the TreeMap
+			map.put(key, value);
+		}
+		scanner.close();
+		// Print the sorted list based on keys
+		System.out.println("Sorted list:");
+		for (Map.Entry<String, Integer> entry : map.entrySet()) {
+			System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+		}
+	}
+}
+
+Answer2
+package randomQueAssignment;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+/*Q2. Implement a Map in java which takes the input and print the list in sorted
+ *  order based on value.
+Input: 5- Rahul, 7 Lakshman, 1 Ram, 4 Krrish, 2 Lakshay
+Output: {Krish=4,Lakshay=2,Lakshman=7,Rahul=5,Ram=1}*/
+public class Q2ValueBasedSorting {
+	public static void main(String[] args) {
+		// creation of map
+		Map<Integer, String> empIdNameMap = new HashMap<>();
+		empIdNameMap.put(1, "Shyam");
+		empIdNameMap.put(2, "Atul");
+		empIdNameMap.put(3, "Bharat");
+		empIdNameMap.put(4, "Deva");
+
+		// original map printing using lambda expression
+		System.out.println("Original Map : ");
+		empIdNameMap.forEach((k, v) -> System.out.println(k + "  " + v));
+
+		Set<Entry<Integer, String>> entrySet = empIdNameMap.entrySet();
+
+		// creation of list for sorting using comparator
+		List<Entry<Integer, String>> list = new ArrayList<>(entrySet);
+
+		Collections.sort(list, new Comparator<Entry<Integer, String>>() {
+			@Override
+			public int compare(Entry<Integer, String> e1, Entry<Integer, String> e2) {
+				// TODO Auto-generated method stub
+				return e1.getValue().compareTo(e2.getValue());
+			}
+		});
+
+		System.out.println("Value Based SortedMap : ");
+		list.forEach(e -> System.out.println(e.getKey() + "  " + e.getValue()));
+	}
+}
+
+Answer3
+package randomQueAssignment;
+
+import java.util.HashSet;
+import java.util.Set;
+
+/*Q3.Detect if an Array contains a duplicate element. 
+ * At Most 1 duplicate would be there.
+Input: 1,2,3,4
+Output: No
+Input: 1, 2, 3, 4, 1
+Output: Yes.*/
+public class Q3ArrayDuplicate {
+	public static void main(String[] args) {
+		int a1[] = { 1, 2, 3, 4 };
+		int a2[] = { 1, 2, 3, 4, 1 };
+		
+		boolean hasDuplicate1 = checkDuplicates(a1);
+		boolean hasDuplicate2 = checkDuplicates(a2);
+		
+		System.out.println("for a1 : "+(hasDuplicate1? "Yes":"No"));
+		System.out.println("for a2 : "+(hasDuplicate2? "Yes":"No"));
+	}
+
+	private static boolean checkDuplicates(int[] a) {
+		Set<Integer> set = new HashSet<>();
+		for (int element : a) {
+			if (set.contains(element)) {
+				return true;  //if duplicate found
+			}
+			set.add(element);
+		}
+		return false; //if no dulpicates
+	}
+}
+
+Answer4
+package randomQueAssignment;
+
+/*Q4. Given an array nums of size n, return the majority element.
+Input: 4,2,7,1,9
+Output: 9*/
+public class Q4MajorityElement {
+	public static void main(String[] args) {
+		int[] nums = { 4, 2, 7, 1, 9 };
+		int majorityElement = findMajorityElement(nums);
+		System.out.println("Majority Element: " + majorityElement);
+	}
+
+	// function to find majority element
+	private static int findMajorityElement(int[] nums) {
+		int count = 0;
+		int element = 0;
+		for (int num : nums) {
+			if (count == 0) {
+				element = num;
+				count++;
+			} else if (num == element) {
+				count++;
+			} else {
+				count--;
+			}
+		}
+		return element;
+	}
+}
+
+Answer5
+package randomQueAssignment;
+
+/*Q5. Given two strings ransomNote and magazine, return true if ransomNote can be
+ *  constructed by using the letters from magazine and false otherwise.
+Each letter in magazine can only be used once in ransomNote.
+
+Input: ransomNote = "a", magazine = "b"
+Output: false
+Input: ransomNote = "aa", magazine = "ab"
+Output: false*/
+public class Q5StringRansomeNote {
+	public static void main(String[] args) {
+		String ransoneNote = "aa";
+		String magzine = "aab";
+
+		boolean result = canConstruct(ransoneNote, magzine);
+		System.out.println(result);
+	}
+
+	private static boolean canConstruct(String ransoneNote, String magzine) {
+		int a[] = new int[26];
+		// getting all characters
+		for (char ch : magzine.toCharArray()) {
+			a[ch - 'a']++;
+		}
+
+		// finding possibility to create note
+		for (char ch : ransoneNote.toCharArray()) {
+			if (a[ch - 'a'] == 0) {
+				return false;
+			}
+			a[ch - 'a']--;
+		}
+		return true;
+	}
+}
